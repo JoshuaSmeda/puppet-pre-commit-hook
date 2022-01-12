@@ -1,8 +1,7 @@
 #!/bin/sh
 #
-# Simple script to configure the
+# Simple script to add Puppet pre-commit git hook to all repos under a directory
 HOOK=$1
-#HOOK=`pwd`
 
 if [ "$2" = "" ]
 then
@@ -16,17 +15,10 @@ echo "Installing hook to all directories underneath ${LOCATION}"
 cd ${LOCATION}
 for DIR in `ls -d */`
 do
-  cd ${LOCATION}
   echo "Adding hook to directory ${DIR}"
-  #cd ${DIR}
-  cp ${HOOK}/pre-commit .git/hooks/pre-commit
-  chmod +x .git/hooks/pre-commit
-  #ln -sf ${HOOK}/pre-commit .git/hooks/pre-commit
+  cp --remove-destination ${HOOK}/pre-commit ${DIR}.git/hooks/pre-commit
 done
 cd ${HOOK}
-
-#echo 'Setting the executable bit on the hook.'
-#chmod +x pre-commit
 
 echo 'Installation complete.'
 echo ''
