@@ -22,7 +22,7 @@ if [ "$ALL_PUPPET_MODULES" = true ] ; then
 fi
 
 echo "Installing hook underneath ${LOCATION}"
-cp --remove-destination ${HOOK}/pre-commit ${LOCATION}.git/hooks/pre-commit
+cp --remove-destination ${HOOK}/pre-commit ${LOCATION}/.git/hooks/pre-commit
 
 echo 'Installation complete.'
 echo ''
