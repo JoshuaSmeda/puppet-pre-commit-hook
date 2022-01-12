@@ -1,6 +1,7 @@
 #!/bin/sh
 #
 # Simple script to add Puppet pre-commit git hook to all repos under a directory
+ALL_PUPPET_MODULES=false
 HOOK=$1
 
 if [ "$2" = "" ]
@@ -11,14 +12,17 @@ else
   LOCATION=$2
 fi
 
-echo "Installing hook to all directories underneath ${LOCATION}"
-cd ${LOCATION}
-for DIR in `ls -d */`
-do
-  echo "Adding hook to directory ${DIR}"
-  cp --remove-destination ${HOOK}/pre-commit ${DIR}.git/hooks/pre-commit
-done
-cd ${HOOK}
+if [ "$ALL_PUPPET_MODULES" = true ] ; then
+  echo "Installing hook to all directories underneath ${LOCATION}"
+  for DIR in `ls -d */`
+  do
+    echo "Adding hook to directory ${DIR}"
+    cp --remove-destination ${HOOK}/pre-commit ${DIR}.git/hooks/pre-commit
+  done
+fi
+
+echo "Installing hook underneath ${LOCATION}"
+cp --remove-destination ${HOOK}/pre-commit ${LOCATION}.git/hooks/pre-commit
 
 echo 'Installation complete.'
 echo ''
